@@ -1,0 +1,76 @@
+{
+  "characters": [
+    {
+      "id": 1,
+      "name": "Golem Chevalier",
+      "description": "Le jeune prodige de la garde royale.",
+      "imageRes": 1
+    },
+    {
+      "id": 2,
+      "name": "Zelda",
+      "description": "La princesse d'Hyrule.",
+      "imageRes": 2
+    },
+    {
+      "id": 3,
+      "name": "Impa",
+      "description": "Générale Sheikah dévouée.",
+      "imageRes": 3
+    },
+    {
+      "id": 4,
+      "name": "Ardi",
+      "description": "Chef des Gerudos.",
+      "imageRes": 4
+    }
+  ],
+  "weapons": [
+    {
+      "id": 1,
+      "name": "Épée de Légende",
+      "type": "Épée",
+      "power": 30,
+      "imageRes": 1
+    },
+    {
+      "id": 2,
+      "name": "Arc Royal",
+      "type": "Arc",
+      "power": 24,
+      "imageRes": 2
+    },
+    {
+      "id": 3,
+      "name": "Lance d'écailles",
+      "type": "Lance",
+      "power": 18,
+      "imageRes": 3
+    },
+    {
+      "id": 4,
+      "name": "Brise-Montagne",
+      "type": "Masse",
+      "power": 42,
+      "imageRes": 4
+    }
+  ],
+  "quiz_questions": [
+    {
+      "id": 1,
+      "question": "Quelle est l'arme de Link ?",
+      "option_a": "Master Sword",
+      "option_b": "Arc Royal",
+      "option_c": "Lance de bois",
+      "correct_option": "A"
+    },
+    {
+      "id": 2,
+      "question": "Qui est le chef des Gerudos ?",
+      "option_a": "Urbosa",
+      "option_b": "Riju",
+      "option_c": "Impa",
+      "correct_option": "A"
+    }
+  ]
+}

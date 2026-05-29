@@ -7,29 +7,46 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", null, 1) {
 
+    override fun onConfigure(db: SQLiteDatabase) {
+        super.onConfigure(db)
+        // Active le support des clés étrangères globalement dans SQLite
+        db.setForeignKeyConstraintsEnabled(true)
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
-        // 1. Table des Personnages (Mise à jour selon ton CharacterData)
+        // Désactivation temporaire pour éviter le blocage de création circulaire
+        db.execSQL("PRAGMA foreign_keys = OFF;")
+
+        // 1. Table des Personnages
         db.execSQL("""
             CREATE TABLE characters (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom TEXT NOT NULL,
                 description TEXT,
-                image_resource INTEGER
+                image_resource INTEGER,
+                arme_id INTEGER, -- Clé étrangère vers weapons (Arme par défaut)
+                quiz_question_id INTEGER, -- Clé étrangère vers quiz_questions (Question liée)
+                FOREIGN KEY (arme_id) REFERENCES weapons(id) ON DELETE SET NULL,
+                FOREIGN KEY (quiz_question_id) REFERENCES quiz_questions(id) ON DELETE SET NULL
             )
         """.trimIndent())
 
-        // 2. Table des Armes (Mise à jour selon ton modèle Weapon)
+        // 2. Table des Armes
         db.execSQL("""
             CREATE TABLE weapons (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom TEXT NOT NULL,
                 type TEXT,
                 puissance INTEGER,
-                image_resource INTEGER
+                image_resource INTEGER,
+                personnage_id INTEGER, -- Clé étrangère vers characters (Propriétaire)
+                quiz_question_id INTEGER, -- Clé étrangère vers quiz_questions (Question liée)
+                FOREIGN KEY (personnage_id) REFERENCES characters(id) ON DELETE SET NULL,
+                FOREIGN KEY (quiz_question_id) REFERENCES quiz_questions(id) ON DELETE SET NULL
             )
         """.trimIndent())
 
-        // 3. Table des Questions du Quiz (Mise à jour pour stocker la question, les options et la bonne réponse)
+        // 3. Table des Questions du Quiz
         db.execSQL("""
             CREATE TABLE quiz_questions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,7 +54,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
                 option_a TEXT NOT NULL,
                 option_b TEXT NOT NULL,
                 option_c TEXT NOT NULL,
-                correct_option TEXT NOT NULL
+                correct_option TEXT NOT NULL,
+                personnage_id INTEGER, -- Clé étrangère vers characters
+                arme_id INTEGER, -- Clé étrangère vers weapons
+                score_id INTEGER, -- Clé étrangère vers scores
+                FOREIGN KEY (personnage_id) REFERENCES characters(id) ON DELETE SET NULL,
+                FOREIGN KEY (arme_id) REFERENCES weapons(id) ON DELETE SET NULL,
+                FOREIGN KEY (score_id) REFERENCES scores(id) ON DELETE SET NULL
             )
         """.trimIndent())
 
@@ -48,9 +71,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
                 pseudo TEXT DEFAULT 'Guerrier',
                 score INTEGER,
                 total INTEGER,
-                date TEXT
+                date TEXT,
+                quiz_question_id INTEGER, -- Clé étrangère vers quiz_questions
+                FOREIGN KEY (quiz_question_id) REFERENCES quiz_questions(id) ON DELETE SET NULL
             )
         """.trimIndent())
+
+        // Réactivation des clés étrangères après la création de la structure
+        db.execSQL("PRAGMA foreign_keys = ON;")
 
         // INJECTION AUTOMATIQUE DES DONNÉES DE DATA_REPOSITORY
         insererPersonnages(db)
@@ -65,7 +93,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
             val values = ContentValues().apply {
                 put("nom", perso.name)
                 put("description", perso.bio)
-                put("image_resource", perso.imageRes) // Utilise la propriété de ton CharacterData (ex: imageRes ou imageResourceId)
+                put("image_resource", perso.imageRes)
+                // Note : arme_id et quiz_question_id restent NULL au départ
+                // et seront mis à jour via des requêtes UPDATE si nécessaire.
             }
             db.insert("characters", null, values)
         }
@@ -78,15 +108,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
             val values = ContentValues().apply {
                 put("nom", arme.name)
                 put("type", arme.type)
-                put("puissance", arme.power) // Utilise la propriété de ton modèle Weapon (ex: puissance ou degats)
-                put("image_resource", arme.imageRes) // Utilise la propriété image de ton Weapon
+                put("puissance", arme.power)
+                put("image_resource", arme.imageRes)
+                // Note : personnage_id et quiz_question_id restent NULL au départ.
             }
             db.insert("weapons", null, values)
         }
     }
 
     // 3. Insertion des Questions de Quiz
-    // Ton Repository fournit : "Question" to listOf("Bonne Réponse (Index 0)", "Mauvaise 1", "Mauvaise 2")
     private fun insererQuestionsQuiz(db: SQLiteDatabase) {
         val listeQuestions = DataRepository.getQuizQuestions()
         for (paire in listeQuestions) {
@@ -94,10 +124,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
             val options = paire.second
 
             if (options.size >= 3) {
-                // Mélangeons les options pour ne pas que la bonne réponse soit toujours l'option A
                 val optionsMelangees = options.shuffled()
-
-                // On retrouve l'index de la bonne réponse originale (qui était la première de ta liste)
                 val indexBonneReponse = optionsMelangees.indexOf(options[0])
                 val lettreBonneReponse = when (indexBonneReponse) {
                     0 -> "A"
@@ -111,6 +138,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
                     put("option_b", optionsMelangees[1])
                     put("option_c", optionsMelangees[2])
                     put("correct_option", lettreBonneReponse)
+                    // Note : personnage_id, arme_id et score_id restent NULL au départ.
                 }
                 db.insert("quiz_questions", null, values)
             }
@@ -118,6 +146,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        // Désactivation des contraintes pour tout vider proprement sans crash
+        db.execSQL("PRAGMA foreign_keys = OFF;")
         db.execSQL("DROP TABLE IF EXISTS weapons")
         db.execSQL("DROP TABLE IF EXISTS characters")
         db.execSQL("DROP TABLE IF EXISTS quiz_questions")
