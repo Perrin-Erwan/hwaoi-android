@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:text="29/05/2026"
-        android:textAlignment="end"
+        android:textAlignment="textEnd"
         android:textColor="#B0B0B0"
         android:textSize="14sp" />
 
