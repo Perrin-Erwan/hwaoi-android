@@ -4,6 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", null, 1) {
 
@@ -145,6 +148,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
         }
     }
 
+    fun insertScore(heroName: String, score: Int): Long {
+        val db = this.writableDatabase
+        val values = ContentValues()
+
+        // On insère le nom du héros choisi ou du joueur
+        values.put("hero_name", heroName)
+        values.put("score_value", score)
+
+        // On génère la date du jour automatiquement au bon format
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val currentDate = sdf.format(Date())
+        values.put("game_date", currentDate)
+
+        val success = db.insert("table_scores", null, values) // Remplace "table_scores" par le vrai nom de ta table
+        db.close()
+        return success
+    }
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Désactivation des contraintes pour tout vider proprement sans crash
         db.execSQL("PRAGMA foreign_keys = OFF;")
