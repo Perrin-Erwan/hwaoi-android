@@ -59,10 +59,15 @@ class ScoresFragment : Fragment() {
                     val hero = "Link" // Optionnel, ou si tu n'as pas de colonne nom, laisse une valeur par défaut
                     val scoreRecup = cursor.getInt(cursor.getColumnIndexOrThrow("score"))
                     val totalRecup = cursor.getInt(cursor.getColumnIndexOrThrow("total"))
-                    val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                    val dateRaw = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                    val dateFormatted = try {
+                        DateUtils.formatTimestamp(dateRaw.toLong())
+                    } catch (e: Exception) {
+                        dateRaw
+                    }
 
-                    val value = "$scoreRecup/$totalRecup pts"
-                    list.add(Score(hero, value, date))
+                    val value = ScoreFormatter.formatScore(scoreRecup, totalRecup)
+                    list.add(Score(hero, value, dateFormatted))
                 } while (cursor.moveToNext())
             }
             cursor.close()

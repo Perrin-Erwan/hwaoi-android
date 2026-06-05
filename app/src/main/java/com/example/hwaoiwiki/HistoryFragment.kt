@@ -29,7 +29,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
                 val total = cursor.getInt(cursor.getColumnIndexOrThrow("total"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
 
-                scoresList.add("Score: $score/$total — Le ${formatDate(date)}")
+                scoresList.add("Score: $score/$total — Le ${DateUtils.formatTimestamp(date.toLong())}")
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -37,11 +37,5 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
         // 3. Afficher dans une liste simple
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = HistoryAdapter(scoresList)
-    }
-
-    private fun formatDate(timestamp: String): String {
-        // Petite fonction pour rendre la date lisible
-        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        return sdf.format(Date(timestamp.toLong()))
     }
 }

@@ -48,7 +48,7 @@ class QuizFragment : Fragment(R.layout.fragment_quiz) {
             } else {
                 // Le quiz est fini, on appelle la sauvegarde !
                 saveFinalScore()
-                tvQuestion.text = "Quiz terminé !\nScore final : $currentScore / ${questions.size}"
+                tvQuestion.text = "Quiz terminé !\nScore final : ${ScoreFormatter.formatScore(currentScore, questions.size)}"
                 buttons.forEach { it.visibility = View.GONE }
                 tvFeedback.visibility = View.GONE
             }
@@ -88,14 +88,10 @@ class QuizFragment : Fragment(R.layout.fragment_quiz) {
             val dbHelper = DatabaseHelper(requireContext())
             val db = dbHelper.writableDatabase
 
-            // Formatage de la date du jour (ex: 01/06/2026)
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            val currentDate = sdf.format(Date())
-
             val values = ContentValues().apply {
                 put("score", currentScore) // au lieu de score_value
                 put("total", questions.size) // si tu veux garder le total
-                put("date", currentDate) // au lieu de game_date
+                put("date", System.currentTimeMillis().toString()) // Enregistre le timestamp
             }
 
             // IMPORTANT : Vérifie que "scores" est bien le nom de la table défini dans ton DatabaseHelper

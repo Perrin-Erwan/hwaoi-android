@@ -27,8 +27,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
                 nom TEXT NOT NULL,
                 description TEXT,
                 image_resource INTEGER,
-                arme_id INTEGER, -- Clé étrangère vers weapons (Arme par défaut)
-                quiz_question_id INTEGER, -- Clé étrangère vers quiz_questions (Question liée)
+                arme_id INTEGER, 
+                quiz_question_id INTEGER, 
                 FOREIGN KEY (arme_id) REFERENCES weapons(id) ON DELETE SET NULL,
                 FOREIGN KEY (quiz_question_id) REFERENCES quiz_questions(id) ON DELETE SET NULL
             )
@@ -42,8 +42,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
                 type TEXT,
                 puissance INTEGER,
                 image_resource INTEGER,
-                personnage_id INTEGER, -- Clé étrangère vers characters (Propriétaire)
-                quiz_question_id INTEGER, -- Clé étrangère vers quiz_questions (Question liée)
+                personnage_id INTEGER, 
+                quiz_question_id INTEGER, 
                 FOREIGN KEY (personnage_id) REFERENCES characters(id) ON DELETE SET NULL,
                 FOREIGN KEY (quiz_question_id) REFERENCES quiz_questions(id) ON DELETE SET NULL
             )

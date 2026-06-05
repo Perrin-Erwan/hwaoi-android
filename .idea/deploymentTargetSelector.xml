@@ -4,7 +4,41 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DialogSelection />
+        <DropdownSelection timestamp="2026-06-05T12:13:44.138837354Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/erwan/.android/avd/Medium_Phone.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection>
+          <targets>
+            <Target type="DEFAULT_BOOT">
+              <handle>
+                <DeviceId pluginId="LocalEmulator" identifier="path=/home/erwan/.android/avd/Medium_Phone.avd" />
+              </handle>
+            </Target>
+          </targets>
+        </DialogSelection>
+      </SelectionState>
+      <SelectionState runConfigName="All Tests">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2026-06-05T12:13:44.138837354Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/erwan/.android/avd/Medium_Phone.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection>
+          <targets>
+            <Target type="DEFAULT_BOOT">
+              <handle>
+                <DeviceId pluginId="LocalEmulator" identifier="path=/home/erwan/.android/avd/Medium_Phone.avd" />
+              </handle>
+            </Target>
+          </targets>
+        </DialogSelection>
       </SelectionState>
     </selectionStates>
   </component>
