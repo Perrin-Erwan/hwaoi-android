@@ -69,6 +69,64 @@ object DataRepository {
                         "Inspiré par Rauru et Sonia qui fondèrent le royaume d'Hyrule sur les espoirs et rêves du peuple, il a dédié sa vie à leur cause." ,
                 android.R.drawable.ic_menu_compass // Remplace par ton image link.png
             ),
+            CharacterData(
+                "Quino",
+                "Jeune homme doué d'un profond sens de la justice qui l'a poussé à s'engager comme soldat pour servir sa patrie. " +
+                        "D'origine noble, il est optimiste et honnête, mais son inexpérience lui joue parfois des tours" ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Cadlan",
+                "Jeune soldat Zora qui n'a pas peur de dire ce qu'il pense. " +
+                        "Il n'hésite pas à se jeter tête la première dans la bataille afin de devenir " +
+                        "suffisamment fort pour pouvoir servir comme garde personnelle de Qia, à qui il voue une profonde admiration." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Lago",
+                "Guerrier zora et ancien garde du corps du roi défunt. " +
+                        "Dévasté par la perte de son souverain et de nombreux alliés, " +
+                        "il décide d'abandonner les armes avant de rassembler à nouveau son courage et retourner au combat." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Pastos",
+                "Chef d'un clan goron opposé à une alliance avec Hyrule. " +
+                        "Après avoir pris conscience du danger pesant sur tout le royaume, " +
+                        "il a décidé de laisser ses griefs de coté et de prendre part à la bataille." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Braton",
+                "Jeune Goron de rochers. " +
+                        "La vraie raison qui l'a poussé à rejoindre les troupes de défense d'Hyrule " +
+                        "est son désir de quitter la montagne de la mort pour goûter aux différents rocher de par tout le royaume." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Vence",
+                "Guerrier piaf et proche de Raphica. " +
+                        "De nature joviale et malicieuse, il s'inquiète plus que quiconque du poids que le rôle de chef fait peser sur les épaules de son ami." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Masba",
+                "Soldat vétéran piaf endurci par le combat qui méprisait le jeune Raphica. " +
+                        "Il soutient maintenant son chef  en tant que proche confident et conseiller." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Sholani",
+                "Guerrière gerudo dans la même tribu qu'Ardi et qui, sous son apparence impertubable, dissimule une profonde admiration pour elle. " +
+                        "Pour protéger ce qui lui est cher, elle a demandé de l'aide à Rauru sans consulter les membres de sa tribu." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
+            CharacterData(
+                "Ronza",
+                "Chef d'une autre tribu gerudo. " +
+                        "Lorsque Ganondorf devient le roi démon et abandonne les Gerudos, elle combat pour repartir de zéro et laver de son peuple." ,
+                android.R.drawable.ic_menu_compass // Remplace par ton image link.png
+            ),
         )
     }
 
