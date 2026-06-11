@@ -80,6 +80,25 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
             )
         """.trimIndent())
 
+        // 5. Table des Matériaux
+        db.execSQL("""
+            CREATE TABLE materiaux (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nom TEXT NOT NULL
+            )
+        """.trimIndent())
+
+        // 6. Table pivot WeaponMateriaux
+        db.execSQL("""
+            CREATE TABLE WeaponMateriaux (
+                weapon_id INTEGER,
+                material_id INTEGER,
+                PRIMARY KEY (weapon_id, material_id),
+                FOREIGN KEY (weapon_id) REFERENCES weapons(id) ON DELETE CASCADE,
+                FOREIGN KEY (material_id) REFERENCES materiaux(id) ON DELETE CASCADE
+            )
+        """.trimIndent())
+
         // Réactivation des clés étrangères après la création de la structure
         db.execSQL("PRAGMA foreign_keys = ON;")
 
@@ -87,6 +106,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
         insererPersonnages(db)
         insererArmes(db)
         insererQuestionsQuiz(db)
+        insererMateriaux(db)
     }
 
     // 1. Insertion des Personnages
@@ -148,6 +168,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
         }
     }
 
+    private fun insererMateriaux(db: SQLiteDatabase) {
+        val listeMateriaux = DataRepository.getMaterials()
+        for (materiau in listeMateriaux) {
+            val values = ContentValues().apply {
+                put("nom", materiau.name)
+            }
+            db.insert("materiaux", null, values)
+        }
+    }
+
     fun insertScore(heroName: String, score: Int): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -172,6 +202,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "HyruleDB", n
         db.execSQL("DROP TABLE IF EXISTS characters")
         db.execSQL("DROP TABLE IF EXISTS quiz_questions")
         db.execSQL("DROP TABLE IF EXISTS scores")
+        db.execSQL("DROP TABLE IF EXISTS materiaux")
+        db.execSQL("DROP TABLE IF EXISTS WeaponMateriaux")
         onCreate(db)
     }
 }

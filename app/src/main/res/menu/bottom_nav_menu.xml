@@ -16,4 +16,9 @@
         android:id="@+id/nav_scores"
         android:title="Scores"
         android:icon="@android:drawable/ic_menu_sort_by_size"/>
+    <item
+        android:id="@+id/nav_materials"
+        android:title="Matériaux"
+        android:icon="@android:drawable/ic_menu_gallery"/>
 </menu>
+

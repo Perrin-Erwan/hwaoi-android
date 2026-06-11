@@ -148,4 +148,13 @@ object DataRepository {
             "Quel est le pouvoir de Revali ?" to listOf("Le courant d'air", "La foudre", "Le bouclier")
         )
     }
+
+    fun getMaterials(): List<Material> {
+        return listOf(
+            Material(1, "Ambre brut"),
+            Material(2, "Diamant"),
+            Material(3, "Topaze brute"),
+            Material(4, "Fragment d'étoile")
+        )
+    }
 }

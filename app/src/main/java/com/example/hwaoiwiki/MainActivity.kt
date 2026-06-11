@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_weapons -> WeaponsFragment()
                 R.id.nav_quiz -> QuizFragment()
                 R.id.nav_scores -> ScoresFragment() // Tu ajoutes cette ligne !
+                R.id.nav_materials -> MaterialsFragment()
                 else -> CharactersFragment()
             }
             supportFragmentManager.beginTransaction()

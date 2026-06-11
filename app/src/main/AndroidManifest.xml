@@ -35,6 +35,12 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".MaterialsActivity"
+            android:exported="false"
+            android:label="Matériaux"
+            android:parentActivityName=".MainActivity" />
+
     </application>
 
 </manifest>

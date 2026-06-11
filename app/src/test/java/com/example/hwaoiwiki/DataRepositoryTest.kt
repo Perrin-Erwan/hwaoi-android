@@ -9,7 +9,7 @@ class DataRepositoryTest {
     @Test
     fun getCharacters_returnsExpectedCount() {
         val characters = DataRepository.getCharacters()
-        assertEquals(10, characters.size)
+        assertEquals(19, characters.size)
     }
 
     @Test
